@@ -1,3 +1,7 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 #linesNormals {
     display: flex;
     flex-direction: row;
@@ -7,12 +11,16 @@
 
 .ligneBus {
     display: flex;
-    justify-content: center;
     align-items: center;
     padding: 10px;
+    padding-left: 20px;
     border: 1px #ccc solid;
-    width: 50px;
+    width: 100%;
+    height: 30px;
+    margin-left: 100px;
+    margin-right: 100px;
     cursor: pointer;
+    gap: 20px;
 }
 
 .ligneBus:hover {

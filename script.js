@@ -8375,6 +8375,7 @@ let linesS = [];
 let linesPl = [];
 let linesN = [];
 let linesR = [];
+let trajets = [];
 
 // Itération sur le tableau dataBus["values"]
 for (let item of dataBus) {
@@ -8410,6 +8411,9 @@ for (let item of dataBus) {
         if (!linesNormals.includes(item["ligne"])) {
             if (!busSpeciaux.includes(item["ligne"])) {
                 linesNormals.push(item["ligne"]);
+                const trajet = dataBus.find(element => element["ligne"] === item["ligne"])["nom_trace"];
+                let objet = {ligne: item["ligne"], trajet: trajet}
+                trajets.push(objet)
             }
         }
     }
@@ -8423,7 +8427,16 @@ function compare(x, y) {
 
 linesNormals.sort(compare);
 
+function trouverElement(ligne) {
+    return trajets.find(element => element.ligne === ligne);
+}
+
 
 for (const element of linesNormals) {
-    pageLinesNormals.innerHTML = pageLinesNormals.innerHTML + `<div id="Bus ${element}" class="ligneBus" >${element}</div>`
+    pageLinesNormals.innerHTML = pageLinesNormals.innerHTML + 
+    `<div id="Bus ${element}" class="ligneBus">
+        <h3>${element}</h3>
+        <h5>${trouverElement(element).trajet}</h5>
+    </div>
+    `
 }
