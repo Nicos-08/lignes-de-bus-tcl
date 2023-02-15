@@ -8375,68 +8375,80 @@ let linesS = [];
 let linesPl = [];
 let linesN = [];
 let linesR = [];
-let trajets = [];
 
 // Itération sur le tableau dataBus["values"]
 for (let item of dataBus) {
     if (item["ligne"][0] === "C") {
         if (!linesCrisalis.includes(item["ligne"])) {
-            linesCrisalis.push(item["ligne"]);
+            linesCrisalis.push(item);
         }
     } else if (item["ligne"][0] === "Z" && item["ligne"][1] === "I") {
         if (!linesZi.includes(item["ligne"])) {
-            linesZi.push(item["ligne"]);
+            linesZi.push(item);
         }
     } else if (item["ligne"][0] === "G" && item["ligne"][1] === "E") {
         if (!linesGe.includes(item["ligne"])) {
-            linesGe.push(item["ligne"]);
+            linesGe.push(item);
         }
     } else if (item["ligne"][0] === "S") {
         if (!linesS.includes(item["ligne"])) {
-            linesS.push(item["ligne"]);
+            linesS.push(item);
         }
     } else if (item["ligne"][0] === "P" && item["ligne"][1] === "L") {
         if (!linesPl.includes(item["ligne"])) {
-            linesPl.push(item["ligne"]);
+            linesPl.push(item);
         }
     } else if (item["ligne"][0] === "N") {
         if (!linesN.includes(item["ligne"])) {
-            linesN.push(item["ligne"]);
+            linesN.push(item);
         }
     } else if (item["ligne"][0] === "R") {
         if (!linesR.includes(item["ligne"])) {
-            linesR.push(item["ligne"]);
+            linesR.push(item);
         }
     } else {
         if (!linesNormals.includes(item["ligne"])) {
             if (!busSpeciaux.includes(item["ligne"])) {
-                linesNormals.push(item["ligne"]);
-                const trajet = dataBus.find(element => element["ligne"] === item["ligne"])["nom_trace"];
-                let objet = {ligne: item["ligne"], trajet: trajet}
-                trajets.push(objet)
+                linesNormals.push(item); 
             }
         }
     }
 }
 
 
+compare(linesCrisalis, 1)
+compare(linesNormals, 0)
+compare(linesGe, 2)
+compare(linesN, 1)
+compare(linesR, 1)
+compare(linesS, 1)
+compare(linesPl, 2)
+compare(linesZi, 2)
 
-function compare(x, y) {
-    return x - y;
+function compare(tableau, aEnlever) {
+    tableau.sort((a, b) => {
+        const aNumber = parseInt(a["ligne"].substring(aEnlever));
+        const bNumber = parseInt(b["ligne"].substring(aEnlever));
+        return aNumber - bNumber;
+    });
 }
 
-linesNormals.sort(compare);
 
-function trouverElement(ligne) {
-    return trajets.find(element => element.ligne === ligne);
+function afficher(typeLigne, endroitHtml) {
+    for (const element of typeLigne) {
+        endroitHtml.innerHTML = endroitHtml.innerHTML + 
+        `<div id="Bus ${element}" class="ligneBus">
+            <h3>${element["ligne"]}</h3>
+            <h5>${element["nom_trace"]}</h5>
+        </div>
+        `
+    }
 }
-
-
-for (const element of linesNormals) {
-    pageLinesNormals.innerHTML = pageLinesNormals.innerHTML + 
-    `<div id="Bus ${element}" class="ligneBus">
-        <h3>${element}</h3>
-        <h5>${trouverElement(element).trajet}</h5>
-    </div>
-    `
-}
+afficher(linesCrisalis, pageLinesCrisalis)
+afficher(linesNormals, pageLinesNormals)
+afficher(linesGe, pageLinesGe)
+afficher(linesN, pageLinesN)
+afficher(linesR, pageLinesR)
+afficher(linesS, pageLinesS)
+afficher(linesPl, pageLinesPl)
+afficher(linesZi, pageLinesZi)
