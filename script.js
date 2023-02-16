@@ -8368,7 +8368,6 @@ let pageLinesR = document.getElementById('linesR');
 // Déclaration du tableau vide qui va contenir toutes les lignes de bus
 let linesCrisalis = [];
 let linesNormals = [];
-let busSpeciaux = ["1E", "10E", "2EX", "73E", "98E", "A32", "A71", "15E", "89D", "T36"];
 let linesZi = [];
 let linesGe = [];
 let linesS = [];
@@ -8379,51 +8378,61 @@ let linesR = [];
 // Itération sur le tableau dataBus["values"]
 for (let item of dataBus) {
     if (item["ligne"][0] === "C") {
-        if (!linesCrisalis.includes(item["ligne"])) {
-            linesCrisalis.push(item);
-        }
+        linesCrisalis.push(item);
     } else if (item["ligne"][0] === "Z" && item["ligne"][1] === "I") {
-        if (!linesZi.includes(item["ligne"])) {
-            linesZi.push(item);
-        }
+        linesZi.push(item);
     } else if (item["ligne"][0] === "G" && item["ligne"][1] === "E") {
-        if (!linesGe.includes(item["ligne"])) {
-            linesGe.push(item);
-        }
+        linesGe.push(item);
     } else if (item["ligne"][0] === "S") {
-        if (!linesS.includes(item["ligne"])) {
-            linesS.push(item);
-        }
+        linesS.push(item);
     } else if (item["ligne"][0] === "P" && item["ligne"][1] === "L") {
-        if (!linesPl.includes(item["ligne"])) {
-            linesPl.push(item);
-        }
+        linesPl.push(item);
     } else if (item["ligne"][0] === "N") {
-        if (!linesN.includes(item["ligne"])) {
-            linesN.push(item);
-        }
+        linesN.push(item);
     } else if (item["ligne"][0] === "R") {
-        if (!linesR.includes(item["ligne"])) {
-            linesR.push(item);
-        }
+        linesR.push(item);
     } else {
-        if (!linesNormals.includes(item["ligne"])) {
-            if (!busSpeciaux.includes(item["ligne"])) {
-                linesNormals.push(item); 
-            }
-        }
+        linesNormals.push(item);
     }
 }
 
 
-compare(linesCrisalis, 1)
-compare(linesNormals, 0)
-compare(linesGe, 2)
-compare(linesN, 1)
-compare(linesR, 1)
-compare(linesS, 1)
-compare(linesPl, 2)
-compare(linesZi, 2)
+linesCrisalis = linesCrisalis.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+linesNormals = linesNormals.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+linesZi = linesZi.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+linesGe = linesGe.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+linesS = linesS.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+linesR = linesR.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+linesPl = linesPl.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+linesN = linesN.filter((item, index, self) => 
+    self.findIndex(t => t.ligne === item.ligne) === index
+);
+// filtre(linesNormals);
+// filtre(linesZi)
+// filtre(linesGe)
+// filtre(linesS)
+// filtre(linesR)
+// filtre(linesPl)
+// filtre(linesN)
+
+// linesCrisalis = linesCrisalis.filter((item, index, self) => 
+//     self.findIndex(t => t.ligne === item.ligne) === index
+// );
+
 
 function compare(tableau, aEnlever) {
     tableau.sort((a, b) => {
@@ -8433,6 +8442,14 @@ function compare(tableau, aEnlever) {
     });
 }
 
+compare(linesCrisalis, 1)
+compare(linesNormals, 0)
+compare(linesGe, 2)
+compare(linesN, 1)
+compare(linesR, 1)
+compare(linesS, 1)
+compare(linesPl, 2)
+compare(linesZi, 2)
 
 function afficher(typeLigne, endroitHtml) {
     for (const element of typeLigne) {
